@@ -8,3 +8,9 @@ body {
 
 @import "tailwindcss";
 @plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #f9618a;
+  --color-secondary: #ff6f00;
+}
