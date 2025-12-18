@@ -8,8 +8,8 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../../Firebase/Firebase.config";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { auth } from "../../Firebase/Firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -33,37 +33,37 @@ const AuthProvider = ({ children }) => {
   };
 
   const updateUserProfile = (displayName, photoURL) => {
-    return updateProfile(auth.currentUser, {
-      displayName,
-      photoURL,
-    });
+    return updateProfile(auth.currentUser, { displayName, photoURL });
   };
 
   const signOutUser = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+    };
   }, []);
 
   const shared = {
     user,
     loading,
-    signInUser,
     createUser,
+    signInUser,
     signInWithGoogle,
     updateUserProfile,
     signOutUser,
     setLoading,
-    setUser,
   };
-  return <AuthContext value={shared}>{children}</AuthContext>;
+
+  return <AuthContext.Provider value={shared}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
