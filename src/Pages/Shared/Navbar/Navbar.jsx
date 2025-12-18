@@ -7,9 +7,12 @@ import toast from "react-hot-toast";
 import MyLink from "../../../Components/MyLink/MyLink";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import Logo from "../Logo/Logo";
+import { MdDashboardCustomize } from "react-icons/md";
+import Loading2 from "../../../Components/Loading/Loading2";
 
 const Navbar = () => {
   const { user, signOutUser, loading } = useContext(AuthContext);
+
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "light";
   });
@@ -23,7 +26,14 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <MyLink to={"/"}>Home</MyLink>
+        <MyLink to={"/"} className={"text-white/80"}>
+          Home
+        </MyLink>
+      </li>
+      <li>
+        <MyLink to={"/all-issues/general"} className={"text-white/80"}>
+          All Issues
+        </MyLink>
       </li>
     </>
   );
@@ -37,6 +47,10 @@ const Navbar = () => {
   const handleTheme = (checked) => {
     setTheme(checked ? "dark" : "light");
   };
+
+  if (loading) {
+    return <Loading2></Loading2>;
+  }
 
   return (
     <div className="bg-gradient-to-r from-[#112a56] to-[#081C40] shadow-sm">
@@ -83,8 +97,16 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-end gap-3">
+            <input
+              onChange={(e) => handleTheme(e.target.checked)}
+              type="checkbox"
+              defaultChecked={localStorage.getItem("theme") === "dark"}
+              className="toggle"
+            />
             {loading ? (
-              <span className="loading loading-spinner loading-md text-yellow-400"></span>
+              <>
+                <span className="loading loading-spinner loading-xl text-yellow-400"></span>
+              </>
             ) : user ? (
               <div className="dropdown dropdown-end z-50">
                 <div
@@ -103,24 +125,23 @@ const Navbar = () => {
                 </div>
                 <ul
                   tabIndex="-1"
-                  className="menu  menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
+                  className="menu font-medium menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
                 >
                   <div className=" pb-3 border-b border-b-gray-200">
                     <li className="text-sm font-bold">{user.displayName}</li>
                     <li className="text-xs">{user.email}</li>
                   </div>
                   <li className="mt-3">
-                    <a>
+                    <MyLink to={"/dashboard/profile"}>
                       <FaUser /> Profile
-                    </a>
+                    </MyLink>
                   </li>
-                  <input
-                    onChange={(e) => handleTheme(e.target.checked)}
-                    type="checkbox"
-                    defaultChecked={localStorage.getItem("theme") === "dark"}
-                    className="toggle"
-                  />
-
+                  <li>
+                    <MyLink to={"/dashboard"} className={""}>
+                      <MdDashboardCustomize />
+                      Dashboard
+                    </MyLink>
+                  </li>
                   <li>
                     <a>
                       <FaGear /> Settings

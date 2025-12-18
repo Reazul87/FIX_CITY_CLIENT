@@ -20,7 +20,10 @@ const Footer = () => {
             <ul className="space-y-2 mt-4">
               {/*  */}
               <li>
-                <Link className="text-white/80 hover:text-primary transition-colors">
+                <Link
+                  to={"/dashboard/profile"}
+                  className="text-white/80 hover:text-primary transition-colors"
+                >
                   Profile
                 </Link>
               </li>
@@ -144,17 +147,17 @@ const Footer = () => {
             </div>
 
             <a
-              href="mailto:support@nexus.com"
+              href="mailto:support@city.com"
               className={`flex items-center text-white/80 hover:text-primary mt-4 transition-colors`}
             >
               <IoIosMail size={18} className="mr-2" />
-              <span>support@nexus.com</span>
+              <span>support@city.com</span>
             </a>
           </div>
         </div>
         <div className="border-t border-[#173A75] mt-5 pt-2.5 text-center">
           <p className="text-sm text-white/80">
-            © {currentYear} Fix City, All Rights Reserved.
+            © {currentYear} Fix City All Rights Reserved.
             <span className="ml-2.5">
               <Link
                 to="/"
