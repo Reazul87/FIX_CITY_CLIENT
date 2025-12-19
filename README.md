@@ -1,4 +1,4 @@
-# FixCity – Civic Issue Reporting Platform
+# Fix City – Civic Issue Reporting Platform
 
 Fix City is a modern, responsive web application that empowers citizens to report civic issues (potholes, garbage overflow, broken streetlights, water leakage, etc.) in their city. Authorities and staff can track, assign, and resolve these issues efficiently.
 
