@@ -91,7 +91,7 @@ const Login = () => {
       .then(async (result) => {
         const user = result.user;
         console.log(user);
-        
+
         const google = user.providerData[0].providerId;
         const user_info = {
           email: user.email,

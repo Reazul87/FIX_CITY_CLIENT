@@ -129,7 +129,8 @@ const PaymentSuccess = () => {
             <h1 className="my-2.5 text-3xl">Payment Successful ✅</h1>
             <p>Transaction ID : {paymentData.transactionId}</p>
             <p>
-              Amount Paid : {paymentData.amount} {paymentData.currency.toUpperCase()}
+              Amount Paid : {paymentData.amount}{" "}
+              {paymentData.currency.toUpperCase()}
             </p>
             <p>Issue Name : {paymentData.user_name || "N/A"}</p>
             <p>Issue Email: {paymentData.customer_email}</p>

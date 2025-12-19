@@ -15,7 +15,7 @@ const LatestResolvedIssues = () => {
       return res.data.data || [];
     },
   });
-  //console.log(resolvedIssues);
+  //////console.log(resolvedIssues);
 
   if (isLoading) {
     return <Loading2 />;

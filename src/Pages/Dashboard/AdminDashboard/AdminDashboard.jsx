@@ -178,7 +178,9 @@ const AdminDashboard = () => {
                       <td>{issue.title}</td>
                       <td>
                         <span
-                          className={`badge ${issue.status === "In-progress"?"px-0":""} ${
+                          className={`badge ${
+                            issue.status === "In-progress" ? "px-0" : ""
+                          } ${
                             issue.status === "Resolved"
                               ? "badge-success"
                               : "badge-warning"
