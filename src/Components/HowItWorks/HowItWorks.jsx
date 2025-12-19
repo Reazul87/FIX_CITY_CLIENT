@@ -42,7 +42,7 @@ const HowItWorks = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16"
+          className="text-3xl md:text-4xl font-bold text-center mb-16"
         >
           How It Works
         </motion.h2>
@@ -67,7 +67,7 @@ const HowItWorks = () => {
                 </div>
               </div>
 
-              <h3 className="text-2xl font-semibold mb-4">{step.title}</h3>
+              <h3 className="text-xl font-semibold mb-4">{step.title}</h3>
               <p className="text-gray-600 leading-relaxed max-w-xs mx-auto">
                 {step.description}
               </p>
@@ -99,12 +99,12 @@ const HowItWorks = () => {
           transition={{ delay: 0.8 }}
           className="text-center mt-16"
         >
-          <p className="text-xl text-gray-600 mb-6">
+          <p className="text-lg text-gray-600 mb-6">
             Ready to make a difference in your neighborhood?
           </p>
           <Link
             to="/dashboard/report-issue"
-            className="btn btn-lg btn-primary shadow-2xl hover:scale-105 transition-transform"
+            className="btn btn-md md:btn-lg btn-primary shadow-2xl hover:scale-105 transition-transform"
           >
             Start Reporting Now
           </Link>

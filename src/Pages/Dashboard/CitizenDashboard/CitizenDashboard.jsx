@@ -14,20 +14,16 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import useAuth from "../../../Hooks/useAuth/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 
 const CitizenDashboard = () => {
-  const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: issues, isLoading: statsLoading } = useQuery({
-    queryKey: ["dashboard-stats", user?.email],
+  const { data: issues, isLoading } = useQuery({
+    queryKey: ["dashboard-stats"],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/citizen-dashboard?email=${user.email}`
-      );
+      const res = await axiosSecure.get(`/citizen-dashboard`);
       // return res.data;
       return res.data?.data;
     },
@@ -44,52 +40,52 @@ const CitizenDashboard = () => {
     { name: "Resolved", value: stats?.resolved, color: "#10b981" },
   ];
 
-  if (authLoading || statsLoading) {
+  if (isLoading) {
     return <Loading />;
   }
   //console.log(userIssue.length);
 
   return (
-    <div className="w-11/12 mx-auto py-10 px-4 min-h-screen">
-      <h1 className="text-4xl font-bold text-center text-accent mb-12">
+    <div className="w-11/12 mx-auto py-6 px-2 md:py-10 md:px-4  min-h-screen">
+      <h1 className="text-2xl md:text-4xl font-bold text-center text-accent mb-12">
         Issue Stats Overview
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 mb-12">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-primary">
             {stats?.totalIssues}
           </h3>
           <p className="text-gray-600 mt-2">Total Issues Submitted</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-amber-500">
             {stats?.pending}
           </h3>
           <p className="text-gray-600 mt-2">Total Pending Issues</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-blue-500">
             {stats?.inProgress}
           </h3>
           <p className="text-gray-600 mt-2">Total In Progress</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-green-500">
             {stats?.resolved}
           </h3>
           <p className="text-gray-600 mt-2">Total Resolved Issues</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-3xl font-bold text-purple-600">
-            BDT{stats?.totalPayments}
+            BDT{stats?.totalPayments.toLocaleString("en-BD")}
           </h3>
           <p className="text-gray-600 mt-2">Total Payments</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        <div className="card bg-base-100 shadow-xl p-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-8 mb-12">
+        <div className="card bg-base-100 shadow-xl p-4 md:p-8">
           <h2 className="text-2xl font-bold text-center mb-6">
             Issue Status Overview
           </h2>
@@ -115,9 +111,9 @@ const CitizenDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="card bg-base-100 shadow-xl p-8">
+        <div className="card bg-base-100 shadow-xl p-4 md:p-8">
           <h2 className="text-2xl font-bold text-center mb-6">
-            Payments Trend (Example)
+            Payments Trend
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={monthlyPayments}>
@@ -137,7 +133,7 @@ const CitizenDashboard = () => {
         </Link>
       </div>
       {userIssue.length === 0 && (
-        <div className="text-center py-16 bg-base-200 rounded-xl">
+        <div className="text-center py-8 md:py-16 bg-base-200 rounded-xl">
           <p className="text-xl text-gray-500 mb-6">
             You haven't reported any issues yet.
           </p>

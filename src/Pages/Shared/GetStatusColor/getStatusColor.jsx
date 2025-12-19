@@ -1,10 +1,12 @@
 const getStatusColor = (status) => {
   if (status === "Pending") {
     return "badge-warning";
-  } else if (status === "In-Progress") {
+  } else if (status === "In-progress") {
+    return "badge-primary";
+  } else if (status === "Working") {
     return "badge-info";
   } else if (status === "Resolved") {
-    return "badge-success";
+    return "badge-accent";
   } else if (status === "Closed") {
     return "badge-ghost";
   } else {

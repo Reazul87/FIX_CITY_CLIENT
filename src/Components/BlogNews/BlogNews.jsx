@@ -33,7 +33,7 @@ const BlogNews = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16"
+          className="text-3xl md:text-4xl font-bold text-center mb-16"
         >
           Success Stories & News
         </motion.h2>
@@ -54,7 +54,7 @@ const BlogNews = () => {
                   className="h-56 w-full object-cover"
                 />
               </figure>
-              <div className="card-body">
+              <div className="card-body px-4 md:p-5">
                 <p className="text-sm text-gray-500">{item.date}</p>
                 <h3 className="card-title text-xl mb-3">{item.title}</h3>
                 <p className="text-gray-600">{item.excerpt}</p>

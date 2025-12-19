@@ -30,19 +30,19 @@ const Register = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      //console.log(data);
-      toast.success("Account created successfully. Please log in.");
+      console.log(data);
+      toast.success("Account created successfully.");
       navigate("/login");
     },
   });
 
   const createGoogleMutation = useMutation({
     mutationFn: async (update_info) => {
-      const res = await axiosSecure.post("/create-user", update_info);
+      const res = await axiosSecure.post("/create-google-user", update_info);
       return res.data;
     },
     onSuccess: (data) => {
-      //console.log(data);
+      // console.log(data);
       if (!data.success) {
         toast.success("Google Login Successful");
         navigate(location.state ? location.state : "/");
@@ -55,12 +55,10 @@ const Register = () => {
 
   const handleRegisterUser = async (data) => {
     const { email, password, photo, name } = data;
-    // const img = photo[0];
     const img = photo && photo.length > 0 ? photo[0] : null;
     try {
       let photoURL = "https://i.pravatar.cc/1080";
 
-      // Taking many time
       if (img) {
         const imgData = new FormData();
         imgData.append("image", img);
@@ -97,11 +95,14 @@ const Register = () => {
     signInWithGoogle()
       .then(async (result) => {
         const user = result.user;
-        // //console.log(user);
+        const google = user.providerData[0].providerId;
+
         const user_info = {
           picture: user.photoURL,
           name: user.displayName,
           email: user.email,
+          provider: google,
+          uid: user.uid,
         };
 
         createGoogleMutation.mutate(user_info);

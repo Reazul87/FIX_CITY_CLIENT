@@ -81,33 +81,34 @@ const AssignedIssues = () => {
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <h2 className="text-3xl font-bold mb-6">Assigned Issues</h2>
-
-      <div className="flex flex-wrap gap-4 mb-6">
+      <h2 className="text-3xl font-bold mb-6 text-center md:text-left">
+        Assigned Issues
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <select
-          className="select select-bordered w-full md:w-64"
-          onChange={(e) => setFilter({ ...filter, status: e.target.value })}
+          className="select select-bordered w-full"
           value={filter.status}
+          onChange={(e) => setFilter({ ...filter, status: e.target.value })}
         >
           <option value="">All Status</option>
           <option>Pending</option>
-          <option>In-Progress</option>
+          <option>In-progress</option>
           <option>Working</option>
           <option>Resolved</option>
           <option>Closed</option>
         </select>
+
         <select
-          className="select select-bordered w-full md:w-64"
-          onChange={(e) => setFilter({ ...filter, priority: e.target.value })}
+          className="select select-bordered w-full"
           value={filter.priority}
+          onChange={(e) => setFilter({ ...filter, priority: e.target.value })}
         >
           <option value="">All Priority</option>
           <option>High</option>
           <option>Low</option>
         </select>
       </div>
-
-      <div className="">
+      <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
             <tr>
@@ -127,9 +128,13 @@ const AssignedIssues = () => {
                 <td className="font-medium">{issue.title}</td>
                 <td>{issue.category}</td>
                 <td>
-                  <div className={`badge ${getStatusColor(issue.status)}`}>
+                  <span
+                    className={`badge  ${getStatusColor(issue.status)} ${
+                      issue.status === "In-progress" ? "px-0" : ""
+                    }`}
+                  >
                     {issue.status}
-                  </div>
+                  </span>
                 </td>
                 <td>
                   <div
@@ -172,7 +177,6 @@ const AssignedIssues = () => {
           </tbody>
         </table>
       </div>
-
       {!isLoading && issues.length === 0 && (
         <div className="text-center py-10">
           <p className="text-xl text-gray-500">

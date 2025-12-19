@@ -55,7 +55,7 @@ const Features = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-12"
+          className="text-3xl md:text-4xl font-bold text-center mb-12"
         >
           Powerful Features to Fix Your City
         </motion.h2>
@@ -70,8 +70,8 @@ const Features = () => {
               className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow p-8 text-center"
             >
               <div className="flex justify-center mb-6">{feature.icon}</div>
-              <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+              <p className="text-gray-600 text-md">{feature.description}</p>
             </motion.div>
           ))}
         </div>

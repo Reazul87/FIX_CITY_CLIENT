@@ -41,7 +41,7 @@ const FAQ = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16"
+          className="text-3xl md:text-4xl font-bold text-center mb-16"
         >
           Frequently Asked Questions
         </motion.h2>
@@ -57,7 +57,7 @@ const FAQ = () => {
                 className="collapse collapse-arrow join-item border border-base-300 bg-base-100"
               >
                 <input type="radio" name="faq-accordion" />
-                <div className="collapse-title text-xl font-semibold">
+                <div className="collapse-title text-lg md:text-xl font-semibold">
                   {faq.question}
                 </div>
                 <div className="collapse-content">

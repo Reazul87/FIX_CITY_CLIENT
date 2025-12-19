@@ -159,12 +159,12 @@ const ManageStaff = () => {
           name: name,
           email: email,
           phone: phone,
-          picture: photoURL,
+          picture: photoURL || editingStaff.picture,
         },
       },
       {
         onSuccess: (data) => {
-          //console.log("update success", data);
+          console.log("update success", data);
         },
       }
     );
@@ -202,10 +202,10 @@ const ManageStaff = () => {
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">Manage Staff</h2>
+        <h2 className="text-2xl md:text-3xl font-bold">Manage Staff</h2>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn btn-success"
+          className="btn btn-success btn-sm md:btn-md btn-outline"
         >
           Add Staff
         </button>
@@ -241,7 +241,7 @@ const ManageStaff = () => {
                 <td className="flex gap-2">
                   <button
                     onClick={() => setEditingStaff(s)}
-                    className="btn btn-sm btn-warning"
+                    className="btn btn-sm btn-error btn-outline "
                   >
                     Update
                   </button>
@@ -301,10 +301,14 @@ const ManageStaff = () => {
                 required
               />
               <div className="modal-action">
-                <button type="submit" className="btn btn-success">
+                <button type="submit" className="btn btn-accent btn-outline">
                   Add Staff
                 </button>
-                <button type="button" onClick={closeAddModal} className="btn">
+                <button
+                  type="button"
+                  onClick={closeAddModal}
+                  className="btn btn-neutral btn-outline"
+                >
                   Cancel
                 </button>
               </div>
@@ -350,10 +354,14 @@ const ManageStaff = () => {
                 className="file-input file-input-bordered w-full"
               />
               <div className="modal-action">
-                <button type="submit" className="btn btn-warning">
+                <button type="submit" className="btn btn-info btn-outline">
                   Update
                 </button>
-                <button type="button" onClick={closeEditModal} className="btn">
+                <button
+                  type="button"
+                  onClick={closeEditModal}
+                  className="btn btn-neutral btn-outline"
+                >
                   Cancel
                 </button>
               </div>

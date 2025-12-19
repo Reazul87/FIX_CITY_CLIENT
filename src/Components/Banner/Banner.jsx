@@ -70,7 +70,7 @@ const Banner = () => {
                   transition={{ duration: 0.8 }}
                   className="max-w-5xl"
                 >
-                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl leading-tight">
+                  <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl leading-tight">
                     {slide.title}
                   </h1>
                   <p className="text-lg md:text-2xl lg:text-3xl mb-10 drop-shadow-lg max-w-4xl mx-auto">
@@ -79,13 +79,13 @@ const Banner = () => {
                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Link
                       to="/report-issue"
-                      className="btn btn-lg btn-accent shadow-2xl hover:scale-105 transition-all duration-300 text-xl px-10"
+                      className="btn btn-lg btn-accent shadow-2xl hover:scale-105 transition-all duration-300 text-md px-10  py-6 md:py-0"
                     >
                       Report an Issue Now
                     </Link>
                     <Link
                       to="/all-issues/general"
-                      className="btn btn-lg btn-outline btn-white border-2 border-white hover:bg-white hover:text-primary shadow-2xl text-xl px-10 transition-all duration-300"
+                      className="btn btn-lg btn-outline btn-white border-2 border-white hover:bg-white hover:text-primary shadow-2xl text-lg px-10 transition-all duration-300"
                     >
                       Explore Issues
                     </Link>

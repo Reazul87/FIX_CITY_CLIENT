@@ -23,8 +23,7 @@ const InvoicePDFBoost = ({ issue }) => {
           <Text style={styles.text}>Id : {issue?.issue_id}</Text>
           <Text style={styles.text}>Email : {issue?.customer_email}</Text>
           <Text style={styles.text}>
-            Plan : Issue Boost ({issue?.amount / 100}{" "}
-            {issue?.currency.toUpperCase()})
+            Plan : Issue Boost ({issue?.amount} {issue?.currency.toUpperCase()})
           </Text>
           <Text style={styles.text}>
             Transaction Id : {issue?.transactionId}

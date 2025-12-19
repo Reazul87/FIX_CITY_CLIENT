@@ -17,7 +17,8 @@ const PaymentsHistory = () => {
       return res.data?.data;
     },
   });
-  //console.log(payments, filter);
+  
+  // console.log(payments, filter);
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -60,7 +61,7 @@ const PaymentsHistory = () => {
                 <td>
                   <div
                     className={`badge badge-soft ${
-                      payment.amount === 10000
+                      payment.plan === "Premium Subscription"
                         ? "badge-success"
                         : "badge-primary"
                     } px-0.5`}
@@ -71,29 +72,26 @@ const PaymentsHistory = () => {
                   </div>
                 </td>
                 <td className="font-bold text-green-600">
-                  ৳{payment.amount / 100}
+                  BDT{payment.amount}
                 </td>
                 <td>
-                  {payment.isBoosted ||
-                    (payment.amount === 10000 && (
-                      <PDFDownloadLink
-                        className="btn btn-success btn-outline w-full"
-                        document={<InvoicePDFBoost issue={payment} />}
-                        fileName="Issues Boosted Invoice.pdf"
-                      >
-                        Download
-                      </PDFDownloadLink>
-                    ))}
-                  {payment.isPremium ||
-                    (payment.amount === 100000 && (
-                      <PDFDownloadLink
-                        className="btn btn-primary btn-outline w-full"
-                        document={<InvoicePDF user={payment} />}
-                        fileName="Profile Premium Invoice.pdf"
-                      >
-                        Download
-                      </PDFDownloadLink>
-                    ))}
+                  {payment.plan === "Premium Subscription" ? (
+                    <PDFDownloadLink
+                      className="btn btn-primary btn-outline w-full"
+                      document={<InvoicePDF user={payment} />}
+                      fileName="Profile Premium Invoice.pdf"
+                    >
+                      Download
+                    </PDFDownloadLink>
+                  ) : (
+                    <PDFDownloadLink
+                      className="btn btn-success btn-outline w-full"
+                      document={<InvoicePDFBoost issue={payment} />}
+                      fileName="Issues Boosted Invoice.pdf"
+                    >
+                      Download
+                    </PDFDownloadLink>
+                  )}
                 </td>
               </tr>
             ))}

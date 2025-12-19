@@ -66,7 +66,7 @@ export default function AllIssues1() {
       return res.data?.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["all-issues", searchText, filters]);
+      queryClient.invalidateQueries(["all-issues", search, filters, page]);
       Swal.fire("Upvoted!", "Your support is recorded.", "success");
     },
     onError: () => {
@@ -91,7 +91,11 @@ export default function AllIssues1() {
       );
       return;
     }
-    upvoteMutation.mutate(issue._id);
+    if (dbUser.isBlocked !== true) {
+      upvoteMutation.mutate(issue._id);
+    } else {
+      toast.error("Access denied. Your account is blocked.");
+    }
   };
 
   if (loading || isLoading) {
@@ -99,19 +103,21 @@ export default function AllIssues1() {
   }
 
   return (
-    <div className=" w-11/12 mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold text-center mb-8">All Issues</h1>
+    <div className="w-11/12 mx-auto py-10 px-4 min-h-screen">
+      <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-800">
+        All Issues
+      </h1>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 p-6 bg-base-200 rounded-xl shadow-inner">
         <input
           type="text"
           placeholder="Search by title or location..."
-          className="input input-bordered flex-1"
+          className="input input-bordered w-full"
           onChange={(e) => setSearchText(e.target.value)}
           value={searchText}
         />
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered"
           value={filters.category}
           onChange={(e) => setFilters({ ...filters, category: e.target.value })}
         >
@@ -123,7 +129,7 @@ export default function AllIssues1() {
           <option>Damaged Footpath</option>
         </select>
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered"
           value={filters.status}
           onChange={(e) => setFilters({ ...filters, status: e.target.value })}
         >
@@ -134,7 +140,7 @@ export default function AllIssues1() {
           <option>Closed</option>
         </select>
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered"
           value={filters.priority}
           onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
         >
@@ -143,7 +149,6 @@ export default function AllIssues1() {
           <option>Low</option>
         </select>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {issues.map((issue) => (
           <div
@@ -152,52 +157,35 @@ export default function AllIssues1() {
               issue.priority === "high" ? "ring-2 ring-red-500" : ""
             }`}
           >
-            <figure className="p-4">
+            <figure className="relative h-52">
               <img
-                src={issue.image || "https://via.placeholder.com/300"}
+                src={issue.image || "https://via.placeholder.com/400x250"}
                 alt={issue.title}
-                className="h-48 object-cover rounded-md w-full"
+                className="w-full h-full object-cover"
               />
+              <span
+                className={`absolute top-4 right-4 badge font-bold ${
+                  issue.priority === "high" ? "badge-error" : "badge-warning"
+                }`}
+              >
+                {issue.priority.toUpperCase()}
+              </span>
             </figure>
-            <div className="card-body p-4">
-              <h2 className="flex items-center">
-                Title :{" "}
-                <span className="card-title text-lg ms-1.5">{issue.title}</span>
-              </h2>
-              <p className="">
-                Location :{" "}
-                <span className="text-sm text-gray-600">{issue.location}</span>
-              </p>
 
-              <div className="flex items-center">
-                Category :
-                <span className="badge badge-outline ms-1.5">
-                  {issue.category}
+            <div className="card-body p-2 md:p-4 gap-3">
+              <h2 className="card-title text-gray-800 leading-tight">
+                {issue.title}
+              </h2>
+              <p className="text-gray-500 text-sm flex items-center gap-1">
+                {issue.location}
+              </p>
+              <div className="flex justify-between gap-2 my-2">
+                <span className="badge badge-outline">{issue.category}</span>
+                <span
+                  className={`badge text-white ${getStatusColor(issue.status)}`}
+                >
+                  {issue.status}
                 </span>
-              </div>
-              <div className="flex justify-between gap-2">
-                <div className="flex items-center">
-                  Status :{" "}
-                  <span
-                    className={`badge badge-error ${getStatusColor(
-                      issue.status
-                    )} ms-1.5`}
-                  >
-                    {issue.status}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  Priority :{" "}
-                  <span
-                    className={`badge ${
-                      issue.priority === "high"
-                        ? "badge-error"
-                        : "badge-warning"
-                    } ms-1.5`}
-                  >
-                    {issue.priority}
-                  </span>
-                </div>
               </div>
 
               <div className="card-actions justify-between items-center mt-4">
@@ -219,13 +207,11 @@ export default function AllIssues1() {
           </div>
         ))}
       </div>
-
       {!isLoading && issues.length === 0 && (
-        <div className="text-center py-16">
-          <p className="text-xl text-gray-500">No issues found.</p>
+        <div className="flex flex-col items-center justify-center py-20">
+          <p className="text-2xl text-gray-400">No matching issues found.</p>
         </div>
       )}
-
       {pagination.totalPages > 1 && (
         <div className="flex justify-center mt-12 gap-2">
           <button

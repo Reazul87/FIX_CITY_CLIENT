@@ -4,13 +4,13 @@ import loaderAnimation from "../../assets/loader.json";
 
 const Loading2 = () => {
   return (
-    <div className="text-center">
-      <div className="w-48 md:w-64 mx-auto mb-8">
+    <div className=" inset-0 z-10 fixed flex items-center justify-center bg-white/50">
+      <div className="w-48 md:w-64">
         <Lottie
           animationData={loaderAnimation}
           loop={true}
           autoplay={true}
-          style={{ width: "100%", height: "auto" }}
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
     </div>

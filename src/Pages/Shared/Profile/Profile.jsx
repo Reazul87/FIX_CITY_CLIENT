@@ -141,7 +141,7 @@ const Profile = () => {
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
             <div className="flex mb-5 items-center justify-between">
-              <h2 className="card-title text-3xl ">My Profile</h2>
+              <h2 className="card-title md:text-3xl text-2xl">My Profile</h2>
 
               {role === "Staff" && (
                 <span
@@ -160,41 +160,55 @@ const Profile = () => {
               )}
             </div>
             {/* Profile Info */}
-            <div className="flex gap-6 items-center mb-6">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center mb-6">
               <img
                 src={dbUser?.picture}
                 // src={dbUser?.picture || user?.photoURL}
                 className="w-24 h-24 object-cover rounded-full ring ring-sky-500 ring-offset-base-100 ring-offset-2"
               />
               <div>
-                <h3 className="text-2xl font-bold">
+                <h3
+                  className={`text-xl md:text-2xl lg:text-3xl font-bold ${
+                    role === "Admin" || role === "Staff"
+                      ? "tooltip tooltip-primary cursor-pointer"
+                      : ""
+                  }`}
+                  data-tip={`
+                      ${
+                        role === "Admin"
+                          ? role
+                          : role === "Staff" && "Moderator"
+                      }`}
+                >
                   {dbUser?.name}
                   {/* {dbUser?.name || user?.displayName} */}
 
-                  <span className="ms-1.5 space-x-1.5">
-                    <span
-                      className={`badge ${
-                        role === "Admin"
-                          ? "badge-error"
-                          : role === "Staff" && "badge-secondary"
-                      }`}
-                    >
-                      {role === "Admin"
-                        ? role
-                        : role === "Staff"
-                        ? "Moderator"
-                        : ""}
-                    </span>
+                  <span className="ms-1.5 space-x-1.5 ">
+                    {role !== "Citizen" && (
+                      <span
+                        className={`badge hidden sm:inline ${
+                          role === "Admin"
+                            ? "badge-error"
+                            : role === "Staff" && "badge-secondary"
+                        }`}
+                      >
+                        {role === "Admin"
+                          ? role
+                          : role === "Staff" && "Moderator"}
+                      </span>
+                    )}
                     {role === "Citizen" &&
                       (dbUser?.isPremium === true ? (
                         <span className="badge badge-primary">Premium</span>
                       ) : (
-                        <span className="badge badge-dash">Free</span>
+                        <span className="badge badge-dash hidden sm:inline">
+                          Free
+                        </span>
                       ))}
                   </span>
                 </h3>
                 {/* <p className="text-lg">{dbUser?.email || user?.email}</p> */}
-                <p className="text-lg">{dbUser?.email}</p>
+                <p className="text-md md:text-lg">{dbUser?.email}</p>
               </div>
             </div>
             {/*  */}
@@ -236,7 +250,7 @@ const Profile = () => {
                     accept="image/*"
                     {...register("photo")}
                     type="file"
-                    className="cursor-pointer text-gray-500 hover:text-pink-500 font-medium"
+                    className="cursor-pointer text-gray-500 hover:text-pink-500 font-medium w-full"
                   />
                 </div>
               </div>

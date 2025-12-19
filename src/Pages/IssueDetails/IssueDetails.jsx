@@ -29,6 +29,7 @@ const IssueDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
+  console.log(editingIssue);
 
   useEffect(() => {
     if (editingIssue) {
@@ -48,7 +49,7 @@ const IssueDetails = () => {
   });
 
   const { data: issue, isLoading: issueLoading } = useQuery({
-    queryKey: ["issue", id],
+    queryKey: ["issue-details"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/issue/${id}`);
       return res.data?.data;
@@ -70,12 +71,17 @@ const IssueDetails = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["issue", id]);
-      setEditingIssue(null);
+      // queryClient.invalidateQueries(["issue-details"]);
+      queryClient.invalidateQueries(["trackings"]);
       if (data.success) {
+        setEditingIssue(null);
         reset();
-        toast.success("Issue Updated successful !");
+        toast.success("Issue Updated successful");
       }
+    },
+    onError: (e) => {
+      console.log(e);
+      toast.error(e.response.data.message);
     },
   });
 
@@ -86,11 +92,11 @@ const IssueDetails = () => {
     },
     onSuccess: () => {
       navigate("/dashboard/my-issues");
-      Swal.fire("Deleted!", "Issue removed.", "success");
+      Swal.fire("Deleted!", "Issue deleted.", "success");
     },
 
     onError: (err) => {
-      console.error("Delete Staff Error:", err);
+      console.error("Delete issue Error:", err);
       toast.error("Delete failed");
     },
   });
@@ -124,6 +130,8 @@ const IssueDetails = () => {
             description,
             location,
             image: photoURL,
+            trackingId: editingIssue.trackingId,
+            issueBy: editingIssue.issueBy,
           },
         });
       }
@@ -153,20 +161,24 @@ const IssueDetails = () => {
       showCancelButton: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const paymentInfo = {
-          cost: 100,
-          issue_name: issue.title,
-          issueBy: issue.issueBy,
-          issue_id: issue._id,
-          trackingId: issue.trackingId,
-        };
-        //console.log({ issue, paymentInfo });
-        const res = await axiosSecure.post(
-          "/boost-issue-payment-checkout-session",
-          paymentInfo
-        );
-        window.location.assign(res.data.url);
-        //console.log(res.data);
+        if (dbUser.isBlocked !== true) {
+          const paymentInfo = {
+            cost: 100,
+            issue_name: issue.title,
+            issueBy: issue.issueBy,
+            issue_id: issue._id,
+            trackingId: issue.trackingId,
+          };
+          //console.log({ issue, paymentInfo });
+          const res = await axiosSecure.post(
+            "/boost-issue-payment-checkout-session",
+            paymentInfo
+          );
+          window.location.assign(res.data.url);
+          //console.log(res.data);
+        } else {
+          toast.error("Access denied. Your account is blocked.");
+        }
       }
     });
   };
@@ -199,13 +211,15 @@ const IssueDetails = () => {
   const canDelete = isOwner;
 
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className="w-11/12 mx-auto py-10 px-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="card lg:col-span-2 *:border">
-          <img
-            src={issue?.image}
-            className="w-full h-64 object-cover rounded-lg"
-          />
+        <div className="card lg:col-span-2">
+          <figure className="p-3">
+            <img
+              src={issue?.image}
+              className="w-full h-64 object-cover rounded-lg"
+            />
+          </figure>
           <div className="card-body p-4">
             <h2 className="flex items-center">
               Title :{" "}
@@ -329,7 +343,7 @@ const IssueDetails = () => {
                       <input
                         {...register("location", {
                           required: "Location is required",
-                          maxLength: {
+                          minLength: {
                             value: 5,
                             message: "Location must be at least 5 characters",
                           },
@@ -393,7 +407,7 @@ const IssueDetails = () => {
               </div>
             )}
 
-            <div className="flex gap-2 justify-between mt-6">
+            <div className="flex gap-2 flex-col md:flex-row md:justify-between mt-6">
               {canEdit && (
                 <button
                   onClick={() => setEditingIssue(issue)}
@@ -444,11 +458,13 @@ const IssueDetails = () => {
         <div>
           {issue?.assigned && (
             <div className="card bg-base-200 p-4 mb-6">
-              <h3 className="font-bold mb-2">Assigned Staff</h3>
-              <div className="flex items-center gap-3">
+              <h3 className="font-bold mb-2 text-center md:text-left">
+                Assigned Staff
+              </h3>
+              <div className="flex flex-col md:flex-row items-center gap-3">
                 <img
                   src={issue.staff_picture}
-                  className="w-12 h-12 rounded-full"
+                  className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
                   <p className="font-medium">{issue.staff_name}</p>
@@ -458,16 +474,27 @@ const IssueDetails = () => {
             </div>
           )}
 
-          <ul className="timeline timeline-vertical lg:timeline-horizontal">
-            {trackings?.map((tracking) => (
-              <li key={tracking._id} className="step step-primary">
-                <div className="timeline-start">{tracking.createdAt}</div>
+          <ul className="timeline timeline-vertical overflow-auto h-80">
+            {trackings?.map((tracking, index) => (
+              <li key={tracking._id}>
+                {index !== 0 && <hr className="bg-primary" />}
+                <div className="timeline-start timeline-box md:timeline-start">
+                  <time className="font-mono italic text-sm">
+                    {new Date(tracking.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </time>
+                </div>
                 <div className="timeline-middle">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="h-5 w-5"
+                    className="w-5 h-5 text-primary"
                   >
                     <path
                       fillRule="evenodd"
@@ -476,15 +503,18 @@ const IssueDetails = () => {
                     />
                   </svg>
                 </div>
-
-                <div className="timeline-end timeline-box">
-                  <h2>
+                <div className="timeline-end timeline-box mb-10 md:mb-0">
+                  <p className="font-bold text-primary">
                     {tracking.status}
-                    <span> by {tracking.by} </span>
-                  </h2>
-                  <p>{tracking.message}</p>
+                    <span className="text-sm font-normal text-gray-600 ml-2">
+                      by {tracking.by}
+                    </span>
+                  </p>
+                  <p className="mt-1 text-gray-700">{tracking.message}</p>
                 </div>
-                <hr />
+                {index !== trackings.length - 1 && (
+                  <hr className="bg-primary" />
+                )}
               </li>
             ))}
           </ul>

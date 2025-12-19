@@ -4,8 +4,8 @@ import costumeAnimation from "../../assets/costume animation.json";
 
 const Loading = () => {
   return (
-    <div className="text-center">
-      <div className="w-48 md:w-64 mx-auto mb-8">
+    <div className=" inset-0 z-10 fixed flex items-center justify-center bg-white/50">
+      <div className="w-48 md:w-64">
         <Lottie
           animationData={costumeAnimation}
           loop={true}

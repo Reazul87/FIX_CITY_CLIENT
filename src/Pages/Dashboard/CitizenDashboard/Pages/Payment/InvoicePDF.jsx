@@ -23,7 +23,7 @@ const InvoicePDF = ({ user }) => {
           <Text style={styles.text}>Name : {user.user_name}</Text>
           <Text style={styles.text}>Email : {user.customer_email}</Text>
           <Text style={styles.text}>
-            Plan : Premium ({user.amount / 100} {user.currency.toUpperCase()})
+            Plan : Premium ({user.amount} {user.currency.toUpperCase()})
           </Text>
           <Text style={styles.text}>Transaction Id : {user.transactionId}</Text>
           <Text style={styles.text}>Date : {user.paidAt}</Text>

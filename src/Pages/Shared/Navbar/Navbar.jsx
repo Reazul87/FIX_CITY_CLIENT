@@ -9,6 +9,7 @@ import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import Logo from "../Logo/Logo";
 import { MdDashboardCustomize } from "react-icons/md";
 import Loading2 from "../../../Components/Loading/Loading2";
+import Loading from "../../../Components/Loading/Loading";
 
 const Navbar = () => {
   const { user, signOutUser, loading } = useContext(AuthContext);
@@ -49,7 +50,7 @@ const Navbar = () => {
   };
 
   if (loading) {
-    return <Loading2></Loading2>;
+    return <Loading></Loading>;
   }
 
   return (
@@ -82,7 +83,7 @@ const Navbar = () => {
               {/* The dropdown menu itself does not need motion unless you want it to animate opening */}
               <ul
                 tabIndex={-1}
-                className="menu menu-sm dropdown-content bg-[#173A75] rounded-box z-1 mt-3 w-36 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-[#173A75] rounded-box z-10 mt-3 w-36 p-2 shadow"
               >
                 {links}
               </ul>

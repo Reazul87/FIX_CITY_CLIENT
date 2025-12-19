@@ -7,13 +7,15 @@ import { useQuery } from "@tanstack/react-query";
 import { MdOutlineStarBorderPurple500 } from "react-icons/md";
 import { FaStar } from "react-icons/fa6";
 import Loading from "../../../../../Components/Loading/Loading";
+import useAuth from "../../../../../Hooks/useAuth/useAuth";
 
 const PaymentSuccess = () => {
   const axiosSecure = useAxiosSecure();
   const [searchParams] = useSearchParams();
   const [paymentData, setPaymentData] = useState(null);
+  const { user, loading } = useAuth();
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const session_id = searchParams.get("session_id");
   useEffect(() => {
     if (session_id) {
@@ -21,7 +23,6 @@ const PaymentSuccess = () => {
         .patch(`/payment-success?session_id=${session_id}`)
         .then((res) => {
           setPaymentData(res.data.data);
-          setLoading(false);
           // //console.log(res.data);
         });
     }
@@ -29,9 +30,9 @@ const PaymentSuccess = () => {
   //console.log({ session_id, paymentData });
 
   const { data } = useQuery({
-    queryKey: ["login-user"],
+    queryKey: ["login-user", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get("/see-user");
+      const res = await axiosSecure.get(`/see-user/${user.email}`);
       return res.data;
     },
   });
@@ -44,6 +45,7 @@ const PaymentSuccess = () => {
   if (!paymentData) {
     return <p>Payment not found!</p>;
   }
+  console.log(paymentData);
 
   return (
     <>
@@ -127,9 +129,9 @@ const PaymentSuccess = () => {
             <h1 className="my-2.5 text-3xl">Payment Successful ✅</h1>
             <p>Transaction ID : {paymentData.transactionId}</p>
             <p>
-              Amount Paid : {paymentData.amount / 100} {paymentData.currency}
+              Amount Paid : {paymentData.amount} {paymentData.currency.toUpperCase()}
             </p>
-            <p>Issue Name : {paymentData.issue_name || "N/A"}</p>
+            <p>Issue Name : {paymentData.user_name || "N/A"}</p>
             <p>Issue Email: {paymentData.customer_email}</p>
             <p>Paid At : {paymentData.paidAt}</p>
           </div>

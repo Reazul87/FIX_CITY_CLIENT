@@ -78,10 +78,12 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-5 flex flex-wrap items-center justify-center gap-1.5 md:justify-between w-full">
-            <h1 className="text-md md:text-2xl font-bold">
-              {role} Dashboard -{" "}
-              <span className="text-primary">{user?.displayName}</span>
+          <div className="px-5 flex flex-col md:flex-row items-center justify-center gap-1.5 md:justify-between w-full">
+            <h1 className="text-md sm:text-xl md:text-2xl font-bold">
+              {role} Dashboard{" "}
+              <span className="text-primary hidden sm:inline">
+                {user?.displayName}
+              </span>
             </h1>
             <div className="flex items-center gap-5">
               <label className="flex cursor-pointer gap-2">
@@ -116,7 +118,8 @@ const DashboardLayout = () => {
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
-            {/* List item */}
+            {/* Home item */}
+
             <li>
               <Link
                 to={"/"}
@@ -128,47 +131,50 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            {/* List item */}
-            <li>
-              <Link
-                to={"/dashboard"}
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Dashboard"
-              >
-                <MdOutlineDashboardCustomize size={18} />
-                <span className="is-drawer-close:hidden">Dashboard</span>
-              </Link>
-            </li>
-
             {/* Admin item */}
             {role === "Admin" && (
               <>
                 {/* All issues item */}
+
                 <li>
                   <Link
                     to={"all-issues"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Assigned issues"
+                    data-tip="All issues"
                   >
                     <ClipboardList size={18} />
                     <span className="is-drawer-close:hidden">All issues</span>
                   </Link>
                 </li>
 
+                {/* Dashboard item */}
+
+                <li>
+                  <Link
+                    to={"/dashboard"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard"
+                  >
+                    <MdOutlineDashboardCustomize size={18} />
+                    <span className="is-drawer-close:hidden">Dashboard</span>
+                  </Link>
+                </li>
+
                 {/*Manage Staff item */}
+
                 <li>
                   <Link
                     to={"manage-staff"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Staff"
+                    data-tip="Manage staff"
                   >
                     <FaUserSecret size={18} />
-
-                    <span className="is-drawer-close:hidden">Manage Staff</span>
+                    <span className="is-drawer-close:hidden">Manage staff</span>
                   </Link>
                 </li>
 
                 {/* Manage users item */}
+
                 <li>
                   <Link
                     to={"manage-users"}
@@ -181,6 +187,7 @@ const DashboardLayout = () => {
                 </li>
 
                 {/* Payments Staff item */}
+
                 <li>
                   <Link
                     to={"payments"}
@@ -209,14 +216,27 @@ const DashboardLayout = () => {
             {/* Staff item */}
             {role === "Staff" && (
               <>
+                {/* Dashboard item */}
+
+                <li>
+                  <Link
+                    to={"/dashboard"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard"
+                  >
+                    <MdOutlineDashboardCustomize size={18} />
+                    <span className="is-drawer-close:hidden">Dashboard</span>
+                  </Link>
+                </li>
+
                 {/* Assigned issues item */}
+
                 <li>
                   <Link
                     to={"assigned-issues"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Assigned issues"
                   >
-                    {/* Home icon */}
                     <ClipboardCheck size={18} />
                     <span className="is-drawer-close:hidden">
                       Assigned issues
@@ -225,6 +245,7 @@ const DashboardLayout = () => {
                 </li>
 
                 {/* Profile item */}
+
                 <li>
                   <Link
                     to={"profile"}
@@ -242,6 +263,7 @@ const DashboardLayout = () => {
             {role === "Citizen" && (
               <>
                 {/* My Issues item */}
+
                 <li>
                   <Link
                     to={"my-issues"}
@@ -253,7 +275,21 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
 
+                {/* Dashboard item */}
+
+                <li>
+                  <Link
+                    to={"/dashboard"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Dashboard"
+                  >
+                    <MdOutlineDashboardCustomize size={18} />
+                    <span className="is-drawer-close:hidden">Dashboard</span>
+                  </Link>
+                </li>
+
                 {/* Report issue */}
+
                 <li>
                   <Link
                     to={"report-issue"}
@@ -280,6 +316,7 @@ const DashboardLayout = () => {
             )}
 
             {/* Settings icon */}
+
             <li>
               <button
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"

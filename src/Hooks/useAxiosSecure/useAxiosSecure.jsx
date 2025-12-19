@@ -3,14 +3,13 @@ import { useNavigate } from "react-router";
 import useAuth from "../useAuth/useAuth";
 import axios from "axios";
 
-
-// baseURL: "http://localhost:5000/",
+// baseURL: "http://localhost:5000",
 const axiosSecure = axios.create({
   baseURL: "https://fixcity.vercel.app",
 });
 
 const useAxiosSecure = () => {
-  const { user, logOut } = useAuth();
+  const { user, signOutUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,10 +26,9 @@ const useAxiosSecure = () => {
       },
       (error) => {
         console.log(error);
-
         const statusCode = error.status;
         if (statusCode === 401 || statusCode === 403) {
-          logOut().then(() => {
+          signOutUser().then(() => {
             navigate("/login");
           });
         }
@@ -43,7 +41,7 @@ const useAxiosSecure = () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-  }, [user, logOut, navigate]);
+  }, [user, signOutUser, navigate]);
 
   return axiosSecure;
 };

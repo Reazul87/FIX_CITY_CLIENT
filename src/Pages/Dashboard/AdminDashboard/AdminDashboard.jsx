@@ -55,48 +55,50 @@ const AdminDashboard = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="w-11/12 mx-auto py-10 px-4 min-h-screen">
+    <div className="w-11/12 mx-auto py-5 md:py-10 px-2 md:px-4 min-h-screen">
       <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold mb-4">Admin Dashboard</h1>
+        <h1 className="text-2xl md:text-4xl font-bold mb-4">System Overview</h1>
         <p className="text-xl text-gray-600">
           Monitor and manage the entire civic reporting system
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 mb-12">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-primary">{totalIssues}</h3>
           <p className="text-gray-600 mt-2">Total Issues Reported</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-amber-500">{pending}</h3>
           <p className="text-gray-600 mt-2">Pending Issues</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-blue-500">{inProgress}</h3>
           <p className="text-gray-600 mt-2">In Progress</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-green-500">{resolved}</h3>
           <p className="text-gray-600 mt-2">Resolved Issues</p>
         </div>
-        <div className="card bg-base-100 shadow-xl p-6 text-center">
+        <div className="card bg-base-100 shadow-xl p-3 md:p-6 text-center">
           <h3 className="text-4xl font-bold text-red-500">{rejected}</h3>
           <p className="text-gray-600 mt-2">Rejected Issues</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-        <div className="card bg-base-100 shadow-xl p-8 text-center lg:col-span-1">
-          <h3 className="text-5xl font-bold text-purple-600">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mb-12">
+        <div className="card bg-base-100 shadow-xl p-4 md:p--8 text-center lg:col-span-1">
+          <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-purple-600">
             BDT{totalPayments.toLocaleString("en-BD")}
           </h3>
-          <p className="text-xl text-gray-600 mt-4">Total Payment Received</p>
+          <p className="md:text-xl text-gray-600 mt-4">
+            Total Payment Received
+          </p>
         </div>
 
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-center mb-6">
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+          <div className="card bg-base-100 shadow-xl p-3 md:p-8">
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">
               Issue Status Overview
             </h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -120,8 +122,8 @@ const AdminDashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="card bg-base-100 shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-center mb-6">
+          <div className="card bg-base-100 shadow-xl p-4 md:p-8">
+            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">
               Monthly Payments
             </h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -148,9 +150,11 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="card bg-base-100 shadow-xl p-8">
-          <h2 className="text-2xl font-bold mb-6">Latest Issues</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
+        <div className="card bg-base-100 shadow-xl p-4 md:p-8">
+          <h2 className="text-xl text-center md:text-2xl font-bold mb-6">
+            Latest Issues
+          </h2>
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
@@ -174,7 +178,7 @@ const AdminDashboard = () => {
                       <td>{issue.title}</td>
                       <td>
                         <span
-                          className={`badge ${
+                          className={`badge ${issue.status === "In-progress"?"px-0":""} ${
                             issue.status === "Resolved"
                               ? "badge-success"
                               : "badge-warning"
@@ -193,8 +197,10 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl p-8">
-          <h2 className="text-2xl font-bold mb-6">Latest Payments</h2>
+        <div className="card bg-base-100 shadow-xl p-4 md:p-8">
+          <h2 className="text-center text-xl md:text-2xl font-bold mb-6">
+            Latest Payments
+          </h2>
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
@@ -225,8 +231,10 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl p-8">
-          <h2 className="text-2xl font-bold mb-6">Latest Registered Users</h2>
+        <div className="card bg-base-100 shadow-xl p-4 md:p-8">
+          <h2 className="text-xl text-center md:text-2xl font-bold mb-6">
+            Latest Registered Users
+          </h2>
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>

@@ -60,7 +60,7 @@ const ManageUsers = () => {
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <h2 className="text-3xl font-bold mb-6">Manage Users</h2>
+      <h2 className="text-2xl md:text-3xl font-bold mb-6">Manage Users</h2>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">

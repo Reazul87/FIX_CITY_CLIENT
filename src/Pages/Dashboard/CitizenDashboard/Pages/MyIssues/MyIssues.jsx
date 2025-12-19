@@ -60,10 +60,16 @@ const MyIssues = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(["my-issues", user?.email, filter]);
       setEditingIssue(null);
+      console.log(data);
+
       if (data.success) {
-        toast.success("Issue Updated successful !");
+        toast.success("Issue Updated Successful");
         reset();
       }
+    },
+    onError: (e) => {
+      console.log(e);
+      toast.error(e.response.data.message);
     },
   });
 
@@ -75,7 +81,7 @@ const MyIssues = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["my-issues", user?.email, "Closed"]);
+      queryClient.invalidateQueries(["my-issues", user?.email, filter]);
       if (data.success) {
         toast.success("Issue Deleted successful !");
       }
@@ -102,15 +108,8 @@ const MyIssues = () => {
           );
           photoURL = pictureH.data.data.display_url;
         }
-        const update_info = {
-          title,
-          category,
-          description,
-          location,
-        };
-        if (photoURL) {
-          update_info.image = photoURL;
-        }
+
+        // console.log(editingIssue.issueBy);
 
         editMutation.mutate({
           id: editingIssue._id,
@@ -121,6 +120,7 @@ const MyIssues = () => {
             location,
             image: photoURL,
             trackingId: editingIssue.trackingId,
+            issueBy: editingIssue.issueBy,
           },
         });
       }
@@ -149,17 +149,21 @@ const MyIssues = () => {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">My Issues</h2>
-        <Link to="/dashboard/report-issue" className="btn btn-success">
+    <div className="w-11/12 mx-auto py-5 px-2 md:py-10 md:px-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between items-center mb-6">
+        <h2 className="text-2xl md:text-4xl font-bold">My Issues</h2>
+        <Link
+          to="/dashboard/report-issue"
+          className="btn btn-success btn-outline text-sm md:text-md"
+        >
           Report New Issue
         </Link>
       </div>
 
-      <div className="flex flex-wrap gap-4 mb-6">
+      {/* <div className="flex flex-wrap gap-4 mb-6"> */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered w-full"
           onChange={(e) => setFilter({ ...filter, status: e.target.value })}
           value={filter.status}
         >
@@ -170,7 +174,7 @@ const MyIssues = () => {
           <option>Closed</option>
         </select>
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered w-full"
           onChange={(e) => setFilter({ ...filter, category: e.target.value })}
           value={filter.category}
         >
@@ -182,7 +186,7 @@ const MyIssues = () => {
           <option>Damaged Footpath</option>
         </select>
         <select
-          className="select select-bordered flex-1"
+          className="select select-bordered w-full"
           onChange={(e) => setFilter({ ...filter, priority: e.target.value })}
           value={filter.priority}
         >
@@ -273,7 +277,7 @@ const MyIssues = () => {
                 className="h-48 w-full object-cover"
               />
             </figure>
-            <div className="card-body">
+            <div className="card-body p-3 md:p-6">
               <h3 className="card-title text-lg">{issue.title}</h3>
               <div className="flex flex-wrap gap-2">
                 <div className={`badge ${getStatusColor(issue.status)}`}>
@@ -287,7 +291,8 @@ const MyIssues = () => {
                   {issue.priority}
                 </div>
               </div>
-              <div className="card-actions justify-end mt-4">
+              {/* <div className="card-actions justify-between md:justify-end mt-4"> */}
+              <div className="grid grid-cols-3 gap-2 mt-2 md:mt-4">
                 <Link
                   to={`/issue/${issue._id}`}
                   className="btn btn-sm btn-info"

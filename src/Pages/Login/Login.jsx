@@ -28,9 +28,38 @@ const Login = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      //console.log(data);
-      toast.success("Login Successful");
-      navigate(location.state ? location.state : "/");
+      // console.log(data);
+      if (data.success === true) {
+        toast.success("Login Successful");
+        if (data.data.role === "Staff") {
+          navigate(location.state ? location.state : "/dashboard");
+        } else {
+          navigate(location.state ? location.state : "/");
+        }
+      }
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
+  const loginGoogleMutation = useMutation({
+    mutationFn: async (update_info) => {
+      const res = await axiosSecure.post("/login-google-user", update_info);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.success === true) {
+        toast.success("Google Login Successful");
+        if (data.data.role === "Staff") {
+          navigate(location.state ? location.state : "/dashboard");
+        } else {
+          navigate(location.state ? location.state : "/");
+        }
+      }
+    },
+    onError: (e) => {
+      console.log(e);
     },
   });
 
@@ -39,6 +68,7 @@ const Login = () => {
     signInUser(email, password)
       .then(async (result) => {
         const user = result.user;
+        console.log(user);
 
         const user_info = {
           email,
@@ -60,13 +90,16 @@ const Login = () => {
     signInWithGoogle()
       .then(async (result) => {
         const user = result.user;
+        console.log(user);
+        
+        const google = user.providerData[0].providerId;
         const user_info = {
-          name: user.displayName,
           email: user.email,
+          provider: google,
         };
 
-        loginMutation.mutate(user_info);
-        //console.log(user, loginMutation);
+        loginGoogleMutation.mutate(user_info);
+        console.log(user, loginGoogleMutation);
       })
       .catch(() => {
         toast.error("Google login failed");

@@ -100,17 +100,20 @@ const ReportIssue = () => {
           photoURL = pictureH.data.data.display_url;
         }
 
-        const issue_info = {
-          title,
-          category,
-          description,
-          location,
-          image: photoURL,
-          issueBy: dbUser.email,
-          userId: dbUser._id,
-        };
-
-        createMutation.mutate(issue_info);
+        if (dbUser.isBlocked !== true) {
+          const issue_info = {
+            title,
+            category,
+            description,
+            location,
+            image: photoURL,
+            issueBy: dbUser.email,
+            userId: dbUser._id,
+          };
+          createMutation.mutate(issue_info);
+        } else {
+          toast.error("Access denied. Your account is blocked.");
+        }
       }
     } catch (error) {
       Swal.fire("Error", "Failed to report issue.", "error");
@@ -122,11 +125,13 @@ const ReportIssue = () => {
     return <Loading></Loading>;
   }
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className="w-11/12 mx-auto py-5 md:py-10 px-2 md:px-4">
       <div className="max-w-2xl mx-auto">
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title text-3xl mb-6">Report New Issue</h2>
+          <div className="card-body p-2 md:p-6">
+            <h2 className="card-title text-2xl md:text-3xl mb-6">
+              Report New Issue
+            </h2>
 
             {!isPremium && issueCount >= 3 && (
               <div className="alert alert-error shadow-lg mb-6">
@@ -167,12 +172,17 @@ const ReportIssue = () => {
               <div className="flex flex-col space-y-1.5">
                 <label className="label font-semibold">Upload Image</label>
                 <input
-                  {...register("image")}
+                  {...register("image", { required: "Image is required" })}
                   type="file"
                   accept="image/*"
                   className="file-input file-input-success focus:border-0 w-full"
                   disabled={!canReport}
                 />
+                {errors.image && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.image.message}
+                  </p>
+                )}
                 <label className="label text-gray-500">Max 5MB, JPG/PNG</label>
               </div>
 
