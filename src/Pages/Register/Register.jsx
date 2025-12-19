@@ -30,9 +30,15 @@ const Register = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.success("Account created successfully.");
-      navigate("/login");
+      if (data.success) {
+        toast.success("Account created successfully.");
+        navigate("/login");
+      }else{
+        toast.error(data.message)
+      }
+    },
+    onError: (e) => {
+      toast.error(e.response.data.message);
     },
   });
 
@@ -42,7 +48,6 @@ const Register = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      // console.log(data);
       if (!data.success) {
         toast.success("Google Login Successful");
         navigate(location.state ? location.state : "/");
@@ -50,6 +55,9 @@ const Register = () => {
         toast.success("Google Registration Successful");
         navigate(location.state ? location.state : "/");
       }
+    },
+    onError: (e) => {
+      toast.error(e.response.data.message);
     },
   });
 
@@ -85,7 +93,6 @@ const Register = () => {
           ? "Email already registered"
           : "Registration failed";
       toast.error(message);
-      console.error("Registration failed");
     } finally {
       if (loading) setLoading(false);
     }
@@ -107,8 +114,7 @@ const Register = () => {
 
         createGoogleMutation.mutate(user_info);
       })
-      .catch((e) => {
-        console.error("Google registration failed:", e);
+      .catch(() => {
         toast.error("Google registration failed");
       })
       .finally(() => {

@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
-import Loading from "../Loading/Loading";
 import Loading2 from "../Loading/Loading2";
 
 const LatestResolvedIssues = () => {
@@ -15,7 +14,6 @@ const LatestResolvedIssues = () => {
       return res.data.data || [];
     },
   });
-  //////console.log(resolvedIssues);
 
   if (isLoading) {
     return <Loading2 />;

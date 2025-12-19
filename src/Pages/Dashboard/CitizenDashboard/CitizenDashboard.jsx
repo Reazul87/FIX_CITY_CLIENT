@@ -24,7 +24,6 @@ const CitizenDashboard = () => {
     queryKey: ["dashboard-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/citizen-dashboard`);
-      // return res.data;
       return res.data?.data;
     },
   });
@@ -32,7 +31,6 @@ const CitizenDashboard = () => {
   const stats = issues?.stats;
   const monthlyPayments = issues?.stats.monthlyPayments;
   const userIssue = issues?.issues;
-  //console.log(stats, monthlyPayments, userIssue);
 
   const pieData = [
     { name: "Pending", value: stats?.pending, color: "#f59e0b" },
@@ -43,7 +41,6 @@ const CitizenDashboard = () => {
   if (isLoading) {
     return <Loading />;
   }
-  //console.log(userIssue.length);
 
   return (
     <div className="w-11/12 mx-auto py-6 px-2 md:py-10 md:px-4  min-h-screen">

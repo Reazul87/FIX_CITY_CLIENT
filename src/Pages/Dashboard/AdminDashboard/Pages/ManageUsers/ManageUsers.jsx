@@ -16,7 +16,6 @@ const ManageUsers = () => {
       return res.data?.data;
     },
   });
-  //console.log(users);
 
   const userMutation = useMutation({
     mutationFn: async ({ update }) => {
@@ -27,8 +26,7 @@ const ManageUsers = () => {
       queryClient.invalidateQueries(["manage-users", "Citizen"]);
       toast.success("User status updated");
     },
-    onError: (err) => {
-      console.error("User status updated failed", err);
+    onError: () => {
       toast.error("User status updated failed");
     },
   });

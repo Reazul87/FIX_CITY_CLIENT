@@ -1,6 +1,4 @@
 import React from "react";
-
-// src/pages/AdminDashboard/AllIssues.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -34,7 +32,6 @@ const AllIssues = () => {
     queryKey: ["all-issues", "Pending"],
     queryFn: async () => {
       const res = await axiosSecure.get("/all-issues/admin");
-      // const res = await axiosSecure.get("/all-issues/admin?status=Pending");
       return res.data?.data;
     },
   });

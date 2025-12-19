@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-
-// src/pages/CitizenDashboard/MyIssues.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useLocation } from "react-router";
 import Swal from "sweetalert2";
@@ -60,7 +58,6 @@ const MyIssues = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(["my-issues", user?.email, filter]);
       setEditingIssue(null);
-      console.log(data);
 
       if (data.success) {
         toast.success("Issue Updated Successful");
@@ -68,7 +65,6 @@ const MyIssues = () => {
       }
     },
     onError: (e) => {
-      console.log(e);
       toast.error(e.response.data.message);
     },
   });
@@ -90,7 +86,6 @@ const MyIssues = () => {
 
   const handleEditIssue = async (data) => {
     const { title, category, description, location, image } = data;
-    //console.log(data);
 
     try {
       if (user) {
@@ -109,8 +104,6 @@ const MyIssues = () => {
           photoURL = pictureH.data.data.display_url;
         }
 
-        // console.log(editingIssue.issueBy);
-
         editMutation.mutate({
           id: editingIssue._id,
           data: {
@@ -124,9 +117,8 @@ const MyIssues = () => {
           },
         });
       }
-    } catch (error) {
+    } catch (e) {
       Swal.fire("Error", "Failed to report issue.", "error");
-      //console.log(error);
     }
   };
 

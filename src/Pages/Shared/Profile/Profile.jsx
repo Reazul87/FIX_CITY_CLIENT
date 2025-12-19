@@ -52,8 +52,7 @@ const Profile = () => {
         toast.success(`${data.message}`);
       }
     },
-    onError: (e) => {
-      //console.log(e);
+    onError: () => {
       toast.error("Working status update failed");
     },
   });
@@ -108,8 +107,7 @@ const Profile = () => {
 
         updateMutation.mutate({ email: dbUser.email, update_info });
       }
-    } catch (error) {
-      //console.log(error);
+    } catch (e) {
       toast.error("Profile update failed. Please try again.");
     }
   };
@@ -126,7 +124,6 @@ const Profile = () => {
       paymentInfo
     );
     window.location.assign(res.data.url);
-    //console.log(res.data);
   };
 
   const handleChangeStatus = () => {

@@ -9,7 +9,6 @@ const InvoicePDFBoost = ({ issue }) => {
     title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
     text: { fontSize: 12, marginBottom: 10 },
   });
-  //console.log(issue);
 
   return (
     <Document>

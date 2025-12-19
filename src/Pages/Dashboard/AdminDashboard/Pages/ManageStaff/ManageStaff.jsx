@@ -46,22 +46,18 @@ const ManageStaff = () => {
       return res.data?.data;
     },
   });
-  //console.log(staff);
 
   const addMutation = useMutation({
     mutationFn: async (data) => {
       const res = await axiosSecure.post("/create-staff", data);
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["manage-staff"]);
       setShowAddModal(false);
-      //console.log(data);
-
       toast.success("Staff added successfully.");
     },
     onError: (err) => {
-      console.error("Add Staff Error:", err);
       toast.error(err.response?.data?.message || "Failed to add staff");
     },
   });
@@ -76,8 +72,7 @@ const ManageStaff = () => {
       setEditingStaff(null);
       toast.success("Staff updated");
     },
-    onError: (err) => {
-      console.error("Update Staff Error:", err);
+    onError: () => {
       toast.error("Update failed");
     },
   });
@@ -92,8 +87,7 @@ const ManageStaff = () => {
       toast.success("Staff deleted");
     },
 
-    onError: (err) => {
-      console.error("Delete Staff Error:", err);
+    onError: () => {
       toast.error("Delete failed");
     },
   });
@@ -125,14 +119,12 @@ const ManageStaff = () => {
         picture: photoURL,
         password,
       });
-      //console.log(addMutation);
     } catch (error) {
       const message =
         error.code === "auth/email-already-in-use"
           ? "Email already registered"
           : "Registration failed";
       toast.error(message);
-      console.error("Registration failed");
     }
   };
 
@@ -152,22 +144,15 @@ const ManageStaff = () => {
       photoURL = pictureG.data.data.display_url;
     }
 
-    updateMutation.mutate(
-      {
-        id: editingStaff._id,
-        data: {
-          name: name,
-          email: email,
-          phone: phone,
-          picture: photoURL || editingStaff.picture,
-        },
+    updateMutation.mutate({
+      id: editingStaff._id,
+      data: {
+        name: name,
+        email: email,
+        phone: phone,
+        picture: photoURL || editingStaff.picture,
       },
-      {
-        onSuccess: (data) => {
-          console.log("update success", data);
-        },
-      }
-    );
+    });
   };
 
   const confirmDeleteStaff = (id) => {
@@ -180,7 +165,6 @@ const ManageStaff = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteMutation.mutate(id);
-        //console.log(deleteMutation);
       }
     });
   };

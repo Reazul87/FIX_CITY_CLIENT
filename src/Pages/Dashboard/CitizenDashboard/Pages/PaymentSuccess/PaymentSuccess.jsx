@@ -4,7 +4,6 @@ import useAxiosSecure from "../../../../../Hooks/useAxiosSecure/useAxiosSecure";
 import InvoicePDF from "../Payment/InvoicePDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
-import { MdOutlineStarBorderPurple500 } from "react-icons/md";
 import { FaStar } from "react-icons/fa6";
 import Loading from "../../../../../Components/Loading/Loading";
 import useAuth from "../../../../../Hooks/useAuth/useAuth";
@@ -15,7 +14,6 @@ const PaymentSuccess = () => {
   const [paymentData, setPaymentData] = useState(null);
   const { user, loading } = useAuth();
 
-  // const [loading, setLoading] = useState(true);
   const session_id = searchParams.get("session_id");
   useEffect(() => {
     if (session_id) {
@@ -23,11 +21,9 @@ const PaymentSuccess = () => {
         .patch(`/payment-success?session_id=${session_id}`)
         .then((res) => {
           setPaymentData(res.data.data);
-          // //console.log(res.data);
         });
     }
   }, [session_id]);
-  //console.log({ session_id, paymentData });
 
   const { data } = useQuery({
     queryKey: ["login-user", user?.email],
@@ -45,7 +41,6 @@ const PaymentSuccess = () => {
   if (!paymentData) {
     return <p>Payment not found!</p>;
   }
-  console.log(paymentData);
 
   return (
     <>

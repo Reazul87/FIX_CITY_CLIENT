@@ -52,7 +52,6 @@ export default function AllIssues1() {
   });
   const issues = data?.data || [];
   const pagination = data?.pagination || {};
-  //console.log(data);
 
   const upvoteMutation = useMutation({
     mutationFn: async (issueId) => {

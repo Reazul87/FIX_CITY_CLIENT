@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-// src/pages/BoostSuccess.jsx
 import { Link, useSearchParams } from "react-router";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
@@ -22,7 +20,6 @@ const PaymentSuccessBoost = () => {
         .then((res) => {
           setPaymentData(res.data.data);
           setLoading(false);
-          //console.log(res.data);
         });
     }
   }, [axiosSecure, session_id]);

@@ -21,7 +21,7 @@ import Loading from "../../../Components/Loading/Loading";
 const StaffDashboard = () => {
   const axiosSecure = useAxiosSecure();
   const location = useLocation();
-  //console.log(location);
+ 
 
   const { data: dashboardData = {}, isLoading } = useQuery({
     queryKey: ["staff-dashboard"],
@@ -32,7 +32,7 @@ const StaffDashboard = () => {
   });
 
   const { assignedIssues = [], stats = {} } = dashboardData;
-  //console.log(assignedIssues, stats);
+ 
 
   const {
     totalAssigned = 0,

@@ -28,7 +28,6 @@ const Login = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      // console.log(data);
       if (data.success === true) {
         toast.success("Login Successful");
         if (data.data.role === "Staff") {
@@ -39,7 +38,7 @@ const Login = () => {
       }
     },
     onError: (e) => {
-      console.log(e);
+      toast.error(e.response.data.message);
     },
   });
 
@@ -59,7 +58,7 @@ const Login = () => {
       }
     },
     onError: (e) => {
-      console.log(e);
+      toast.error(e.response.data.message);
     },
   });
 
@@ -68,7 +67,6 @@ const Login = () => {
     signInUser(email, password)
       .then(async (result) => {
         const user = result.user;
-        console.log(user);
 
         const user_info = {
           email,
@@ -76,7 +74,6 @@ const Login = () => {
         };
 
         loginMutation.mutate(user_info);
-        //console.log(user, loginMutation);
       })
       .catch((e) => {
         const message =
@@ -90,7 +87,6 @@ const Login = () => {
     signInWithGoogle()
       .then(async (result) => {
         const user = result.user;
-        console.log(user);
 
         const google = user.providerData[0].providerId;
         const user_info = {
@@ -99,7 +95,6 @@ const Login = () => {
         };
 
         loginGoogleMutation.mutate(user_info);
-        console.log(user, loginGoogleMutation);
       })
       .catch(() => {
         toast.error("Google login failed");

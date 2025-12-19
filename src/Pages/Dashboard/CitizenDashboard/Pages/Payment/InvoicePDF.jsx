@@ -9,7 +9,6 @@ const InvoicePDF = ({ user }) => {
     title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
     text: { fontSize: 12, marginBottom: 10 },
   });
-  //console.log(user);
 
   return (
     <Document>

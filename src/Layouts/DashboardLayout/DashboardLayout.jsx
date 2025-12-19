@@ -43,7 +43,6 @@ const DashboardLayout = () => {
   if (loading || isLoading) {
     return <Loading></Loading>;
   }
-  //console.log(role, isLoading);
 
   const handleSignOutUser = () => {
     signOutUser().then(() => {

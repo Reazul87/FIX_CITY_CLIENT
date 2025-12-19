@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -21,8 +20,7 @@ const AssignedIssues = () => {
       const res = await axiosSecure.get(`/see-user/${user.email}`);
       return res.data?.result;
     },
-  });
-  //console.log(filter);
+  }); 
 
   const { data: issues = [], isLoading } = useQuery({
     queryKey: ["assigned-issues", dbUser?._id, filter],
@@ -38,8 +36,7 @@ const AssignedIssues = () => {
   });
 
   const changeStatus = useMutation({
-    mutationFn: async ({ issue, status }) => {
-      //console.log(issue, status);
+    mutationFn: async ({ issue, status }) => { 
       const update_info = {
         status,
         trackingId: issue.trackingId,

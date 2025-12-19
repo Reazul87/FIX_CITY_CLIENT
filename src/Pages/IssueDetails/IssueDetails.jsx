@@ -29,7 +29,6 @@ const IssueDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
-  console.log(editingIssue);
 
   useEffect(() => {
     if (editingIssue) {
@@ -71,7 +70,6 @@ const IssueDetails = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      // queryClient.invalidateQueries(["issue-details"]);
       queryClient.invalidateQueries(["trackings"]);
       if (data.success) {
         setEditingIssue(null);
@@ -80,7 +78,6 @@ const IssueDetails = () => {
       }
     },
     onError: (e) => {
-      console.log(e);
       toast.error(e.response.data.message);
     },
   });
@@ -94,16 +91,13 @@ const IssueDetails = () => {
       navigate("/dashboard/my-issues");
       Swal.fire("Deleted!", "Issue deleted.", "success");
     },
-
-    onError: (err) => {
-      console.error("Delete issue Error:", err);
+    onError: () => {
       toast.error("Delete failed");
     },
   });
 
   const handleEditIssue = async (data) => {
     const { title, category, description, location, image } = data;
-    //console.log(data);
 
     try {
       if (user) {
@@ -135,9 +129,8 @@ const IssueDetails = () => {
           },
         });
       }
-    } catch (error) {
-      Swal.fire("Error", "Failed to report issue.", "error");
-      //console.log(error);
+    } catch (e) {
+      toast.error("Failed to report issue.");
     }
   };
 
@@ -149,7 +142,6 @@ const IssueDetails = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteMutation.mutate(id);
-        //console.log(deleteMutation);
       }
     });
   };
@@ -169,20 +161,17 @@ const IssueDetails = () => {
             issue_id: issue._id,
             trackingId: issue.trackingId,
           };
-          //console.log({ issue, paymentInfo });
           const res = await axiosSecure.post(
             "/boost-issue-payment-checkout-session",
             paymentInfo
           );
           window.location.assign(res.data.url);
-          //console.log(res.data);
         } else {
           toast.error("Access denied. Your account is blocked.");
         }
       }
     });
   };
-  //console.log(issue);
 
   const { data: trackings, isLoading: trackingsLoading } = useQuery({
     queryKey: ["trackings"],
@@ -194,7 +183,6 @@ const IssueDetails = () => {
     },
     enabled: !!issue?.trackingId,
   });
-  //console.log(trackings);
 
   if (
     loading ||

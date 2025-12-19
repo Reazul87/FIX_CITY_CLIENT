@@ -17,8 +17,6 @@ const PaymentsHistory = () => {
       return res.data?.data;
     },
   });
-  
-  // console.log(payments, filter);
 
   return (
     <div className="container mx-auto py-10 px-4">

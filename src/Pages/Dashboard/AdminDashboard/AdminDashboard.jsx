@@ -34,7 +34,6 @@ const AdminDashboard = () => {
     latestUsers = [],
     monthlyPayments = [],
   } = dashboardData;
-  //console.log(dashboardData);
 
   const {
     totalIssues = 0,

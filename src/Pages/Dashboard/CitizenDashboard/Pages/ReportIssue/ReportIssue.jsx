@@ -1,6 +1,4 @@
 import React from "react";
-
-// src/pages/CitizenDashboard/ReportIssue.jsx
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -33,8 +31,6 @@ const ReportIssue = () => {
   });
   const dbUser = db?.result;
 
-  //console.log("dbUser", dbUser);
-
   const {
     data: myIssues = [],
     isLoading,
@@ -48,8 +44,6 @@ const ReportIssue = () => {
     enabled: !!dbUser?.email,
   });
 
-  //console.log("myIssues", myIssues?.data);
-
   const issueCount = myIssues?.data?.length || 0;
   const isPremium = dbUser?.isPremium;
   const canReport = isPremium || issueCount < 3;
@@ -61,7 +55,6 @@ const ReportIssue = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(["my-issues", dbUser?.email]);
-      //console.log(data);
 
       if (data.success === true) {
         toast.success("Your issue has been submitted successfully.");
@@ -115,9 +108,8 @@ const ReportIssue = () => {
           toast.error("Access denied. Your account is blocked.");
         }
       }
-    } catch (error) {
+    } catch (e) {
       Swal.fire("Error", "Failed to report issue.", "error");
-      //console.log(error);
     }
   };
 
