@@ -79,13 +79,13 @@ const Banner = () => {
                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Link
                       to="/dashboard/report-issue"
-                      className="btn btn-lg btn-accent shadow-2xl hover:scale-105 transition-all duration-300 text-md px-10  py-6 md:py-0"
+                      className="btn btn-lg btn-accent shadow-2xl hover:scale-105 transition-all duration-300 text-md px-5  py-6 md:py-0"
                     >
-                      Report an Issue Now
+                      Report Now
                     </Link>
                     <Link
                       to="/all-issues/general"
-                      className="btn btn-lg btn-outline btn-white border-2 border-white hover:bg-white hover:text-primary shadow-2xl text-lg px-10 transition-all duration-300"
+                      className="btn btn-lg btn-outline btn-white border-2 border-white hover:bg-white hover:text-primary shadow-2xl text-lg px-5 transition-all duration-300"
                     >
                       Explore Issues
                     </Link>

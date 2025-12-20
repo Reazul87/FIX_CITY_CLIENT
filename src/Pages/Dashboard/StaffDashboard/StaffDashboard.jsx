@@ -21,7 +21,6 @@ import Loading from "../../../Components/Loading/Loading";
 const StaffDashboard = () => {
   const axiosSecure = useAxiosSecure();
   const location = useLocation();
- 
 
   const { data: dashboardData = {}, isLoading } = useQuery({
     queryKey: ["staff-dashboard"],
@@ -32,7 +31,6 @@ const StaffDashboard = () => {
   });
 
   const { assignedIssues = [], stats = {} } = dashboardData;
- 
 
   const {
     totalAssigned = 0,
@@ -151,17 +149,17 @@ const StaffDashboard = () => {
             {todaysIssues.map((issue) => (
               <div
                 key={issue._id}
-                className="card bg-base-100  border border-gray-100 shadow-md p-0 md:p-5"
+                className="card bg-base-100  border border-gray-100 shadow-md p-1 md:p-2"
               >
-                <figure className="p-0">
+                <figure className="p-2">
                   <img
-                    src={issue.image || "https://via.placeholder.com/300"}
+                    src={issue.image}
                     alt={issue.title}
                     className="h-36 object-cover rounded-md w-full"
                   />
                 </figure>
-                <div className="card-body p-0">
-                  <h3 className="font-semibold text-lg ">{issue.title}</h3>
+                <div className="card-body p-2">
+                  <h3 className="font-semibold text-[1rem] md:text-lg ">{issue.title}</h3>
                   <p className="text-sm text-gray-600">
                     Location: {issue.location}
                   </p>
@@ -181,13 +179,15 @@ const StaffDashboard = () => {
                     <span className="badge badge-primary">{issue.status}</span>
                   </div>
                 </div>
-                <Link
-                  to={`/issue/${issue._id}`}
-                  state={location.pathname}
-                  className="btn btn-sm btn-primary mt-4 w-full"
-                >
-                  View & Update
-                </Link>
+                <div className="p-2">
+                  <Link
+                    to={`/issue/${issue._id}`}
+                    state={location.pathname}
+                    className="btn btn-sm btn-primary mt-4 w-full"
+                  >
+                    View & Update
+                  </Link>
+                </div>
               </div>
             ))}
           </div>

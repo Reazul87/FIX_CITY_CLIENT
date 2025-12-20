@@ -213,7 +213,7 @@ const ManageStaff = () => {
                   <div className="avatar">
                     <div className="w-12 rounded-full">
                       <img
-                        src={s.picture || "https://i.pravatar.cc/150"}
+                        src={s.picture}
                         alt={s.name}
                       />
                     </div>

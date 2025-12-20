@@ -48,25 +48,19 @@ const PaymentsHistory = () => {
           <tbody>
             {payments.map((payment) => (
               <tr key={payment._id}>
-                <td>{payment.paidAt.split("at")[0]}</td>
-                <td>
-                  {payment.customer_email}
-                  <br />
-                  <span className="text-sm text-gray-600">
-                    {/* {payment.user.email} */}
-                  </span>
-                </td>
+                <td>{payment.paidAt}</td>
+                <td>{payment.customer_email}</td>
                 <td>
                   <div
-                    className={`badge badge-soft ${
-                      payment.plan === "Premium Subscription"
+                    className={`badge  ${
+                      payment.plan !== "Premium Subscription"
                         ? "badge-success"
                         : "badge-primary"
-                    } px-0.5`}
+                    } `}
                   >
                     {payment?.plan === "Premium Subscription"
                       ? "Premium"
-                      : "Boost"}
+                      : "Boosted"}
                   </div>
                 </td>
                 <td className="font-bold text-green-600">

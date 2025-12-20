@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import getStatusColor from "../Shared/GetStatusColor/getStatusColor";
@@ -158,7 +158,7 @@ export default function AllIssues1() {
           >
             <figure className="relative h-52">
               <img
-                src={issue.image || "https://via.placeholder.com/400x250"}
+                src={issue.image}
                 alt={issue.title}
                 className="w-full h-full object-cover"
               />
@@ -212,35 +212,39 @@ export default function AllIssues1() {
         </div>
       )}
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center mt-6 md:mt-12 gap-1 md:gap-2">
+        <div className="flex items-center justify-center mt-8 gap-1 md:gap-2">
           <button
             onClick={() => setPage(pagination.currentPage - 1)}
             disabled={!pagination.hasPrev}
-            className="btn btn-xs xs:btn-sm sm:btn-sm md:btn-md btn-outline"
+            className="btn btn-xs sm:btn-sm btn-outline"
           >
-            Previous
+            «
           </button>
 
-          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
-            (p) => (
-              <button
-                key={p}
-                onClick={() => setPage(p)}
-                className={`btn btn-xs xs:btn-sm sm:btn-sm md:btn-md ${
-                  p === pagination.currentPage ? "btn-primary" : "btn-outline"
-                }`}
-              >
-                {p}
-              </button>
-            )
-          )}
+          {[...new Set([1, pagination.currentPage, pagination.totalPages])]
+            .sort((a, b) => a - b)
+            .map((p, index, array) => (
+              <React.Fragment key={p}>
+                {index > 0 && p - array[index - 1] > 1 && (
+                  <span className="px-1 text-gray-400">...</span>
+                )}
 
+                <button
+                  onClick={() => setPage(p)}
+                  className={`btn btn-xs sm:btn-sm ${
+                    p === pagination.currentPage ? "btn-primary" : "btn-outline"
+                  }`}
+                >
+                  {p}
+                </button>
+              </React.Fragment>
+            ))}
           <button
             onClick={() => setPage(pagination.currentPage + 1)}
             disabled={!pagination.hasNext}
-            className="btn btn-xs xs:btn-sm sm:btn-sm md:btn-md btn-outline"
+            className="btn btn-xs sm:btn-sm btn-outline"
           >
-            Next
+            »
           </button>
         </div>
       )}

@@ -30,7 +30,7 @@ const Login = () => {
     onSuccess: (data) => {
       if (data.success === true) {
         toast.success("Login Successful");
-        if (data.data.role === "Staff") {
+        if (data.data.role === "Staff" || data.data.role === "Admin") {
           navigate(location.state ? location.state : "/dashboard");
         } else {
           navigate(location.state ? location.state : "/");
@@ -50,7 +50,7 @@ const Login = () => {
     onSuccess: (data) => {
       if (data.success === true) {
         toast.success("Google Login Successful");
-        if (data.data.role === "Staff") {
+        if (data.data.role === "Staff" || data.data.role === "Admin") {
           navigate(location.state ? location.state : "/dashboard");
         } else {
           navigate(location.state ? location.state : "/");
