@@ -116,7 +116,7 @@ export default function AllIssues1() {
           value={searchText}
         />
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           value={filters.category}
           onChange={(e) => setFilters({ ...filters, category: e.target.value })}
         >
@@ -128,7 +128,7 @@ export default function AllIssues1() {
           <option>Damaged Footpath</option>
         </select>
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           value={filters.status}
           onChange={(e) => setFilters({ ...filters, status: e.target.value })}
         >
@@ -139,7 +139,7 @@ export default function AllIssues1() {
           <option>Closed</option>
         </select>
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           value={filters.priority}
           onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
         >
@@ -212,11 +212,11 @@ export default function AllIssues1() {
         </div>
       )}
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center mt-12 gap-2">
+        <div className="flex justify-center mt-6 md:mt-12 gap-1 md:gap-2">
           <button
             onClick={() => setPage(pagination.currentPage - 1)}
             disabled={!pagination.hasPrev}
-            className="btn btn-outline"
+            className="btn btn-xs xs:btn-sm sm:btn-sm md:btn-md btn-outline"
           >
             Previous
           </button>
@@ -226,7 +226,7 @@ export default function AllIssues1() {
               <button
                 key={p}
                 onClick={() => setPage(p)}
-                className={`btn ${
+                className={`btn btn-xs xs:btn-sm sm:btn-sm md:btn-md ${
                   p === pagination.currentPage ? "btn-primary" : "btn-outline"
                 }`}
               >
@@ -238,7 +238,7 @@ export default function AllIssues1() {
           <button
             onClick={() => setPage(pagination.currentPage + 1)}
             disabled={!pagination.hasNext}
-            className="btn btn-outline"
+            className="btn btn-xs xs:btn-sm sm:btn-sm md:btn-md btn-outline"
           >
             Next
           </button>

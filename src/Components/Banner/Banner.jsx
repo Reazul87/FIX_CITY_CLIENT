@@ -78,7 +78,7 @@ const Banner = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Link
-                      to="/report-issue"
+                      to="/dashboard/report-issue"
                       className="btn btn-lg btn-accent shadow-2xl hover:scale-105 transition-all duration-300 text-md px-10  py-6 md:py-0"
                     >
                       Report an Issue Now
