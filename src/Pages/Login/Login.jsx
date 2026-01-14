@@ -85,11 +85,11 @@ const Login = () => {
   });
 
   const handleDemoLogin = (role) => {
-    let email = "welcome@gmail.com";
-    let password = "Welcome123";
+    let email = `${import.meta.env.VITE_CitizenEmail}`;
+    let password = `${import.meta.env.VITE_Password}`;
     if (role === "Admin") {
-      email = "welcome@admin.com";
-      password = "Welcome123";
+      email = `${import.meta.env.VITE_AdminEmail}`;
+      password = `${import.meta.env.VITE_Password}`;
     }
 
     signInUser(email, password)
