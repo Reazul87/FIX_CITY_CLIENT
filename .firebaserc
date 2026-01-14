@@ -1,7 +1,9 @@
 {
   "projects": {
     "default": "fixcity",
-    "prod": "fix-city-1"
+    "prod": "fix-city-1",
+    "y": "fix-city-1",
+    "fix-city-1": "fix-city-1"
   },
   "targets": {},
   "etags": {}

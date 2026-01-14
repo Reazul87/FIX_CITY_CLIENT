@@ -14,6 +14,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const { signInUser, setLoading, loading, signInWithGoogle } =
     useContext(AuthContext);
@@ -61,6 +62,54 @@ const Login = () => {
       toast.error(e.response.data.message);
     },
   });
+
+  const demoLoginMutation = useMutation({
+    mutationFn: async (credentials) => {
+      const res = await axiosSecure.post("/login-demo-user", credentials);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(`${data.data.role} Login Successful`);
+
+        if (data.data.role === "Admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/");
+        }
+      }
+    },
+    onError: () => {
+      toast.error("Demo login failed");
+    },
+  });
+
+  const handleDemoLogin = (role) => {
+    let email = "welcome@gmail.com";
+    let password = "Welcome123";
+    if (role === "Admin") {
+      email = "welcome@admin.com";
+      password = "Welcome123";
+    }
+
+    signInUser(email, password)
+      .then(async (result) => {
+        const user = result.user;
+
+        const user_info = {
+          email,
+          password,
+        };
+
+        demoLoginMutation.mutate(user_info);
+      })
+      .catch((e) => {
+        const message =
+          e.code === "auth/wrong-password" ? "Wrong password" : "Login failed";
+        toast.error(message);
+      })
+      .finally(() => setLoading(false));
+  };
 
   const handleEmailPasswordLogin = (data) => {
     const { email, password } = data;
@@ -117,9 +166,9 @@ const Login = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-xl my-10 border border-gray-100">
+    <div className="card ml-2 mr-2 bg-base-100 md:mx-auto max-w-sm shrink-0 shadow-xl my-5 md:my-10 border border-gray-100">
       <title>Login</title>
-      <div className="card-body">
+      <div className="card-body p-4 md:p-6">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-extrabold text-[#173A75]">
             Welcome Back
@@ -224,6 +273,27 @@ const Login = () => {
             >
               Login
             </button>
+            <div className="flex justify-between">
+              <button
+                onClick={() => handleDemoLogin("Citizen")}
+                // onClick={() => {
+                //   demoLoginMutation.mutate({ role: "Citizen" });
+                //   setValue("email", "welcome@gmail.com");
+                //   setValue("password", "Welcome12");
+                // }}
+                type="button"
+                className={`btn flex-1 text-white rounded-full bg-gradient-to-r from-[#6360f0] to-[#8b59ff] hover:from-[#ce3a6b] hover:to-[#96165c]`}
+              >
+                Demo Login
+              </button>
+              <button
+                onClick={() => handleDemoLogin("Admin")}
+                type="button"
+                className={`btn flex-1 text-white rounded-full bg-gradient-to-r from-[#eb5151] to-[#ec2d2d] hover:from-[#34a4e6] hover:to-[#1691ca] `}
+              >
+                Admin Login
+              </button>
+            </div>
           </fieldset>
         </form>
         <div className="flex items-center">
