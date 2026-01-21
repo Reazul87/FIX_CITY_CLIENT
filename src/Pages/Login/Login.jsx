@@ -14,7 +14,6 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
   const { signInUser, setLoading, loading, signInWithGoogle } =
     useContext(AuthContext);
@@ -63,45 +62,28 @@ const Login = () => {
     },
   });
 
-  const demoLoginMutation = useMutation({
-    mutationFn: async (credentials) => {
-      const res = await axiosSecure.post("/login-demo-user", credentials);
-      return res.data;
-    },
-    onSuccess: (data) => {
-      if (data.success) {
-        toast.success(`${data.data.role} Login Successful`);
-
-        if (data.data.role === "Admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
-      }
-    },
-    onError: () => {
-      toast.error("Demo login failed");
-    },
-  });
-
   const handleDemoLogin = (role) => {
     let email = `${import.meta.env.VITE_CitizenEmail}`;
     let password = `${import.meta.env.VITE_Password}`;
     if (role === "Admin") {
       email = `${import.meta.env.VITE_AdminEmail}`;
       password = `${import.meta.env.VITE_Password}`;
+    } else if (role === "Staff") {
+      email = `${import.meta.env.VITE_StaffEmail}`;
+      password = `${import.meta.env.VITE_Password}`;
     }
 
     signInUser(email, password)
       .then(async (result) => {
         const user = result.user;
-
-        const user_info = {
-          email,
-          password,
-        };
-
-        demoLoginMutation.mutate(user_info);
+        if (role && user) {
+          toast.success(`${role} Login Successful`);
+          if (role === "Admin" || role === "Staff") {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
+        }
       })
       .catch((e) => {
         const message =
@@ -116,7 +98,7 @@ const Login = () => {
     signInUser(email, password)
       .then(async (result) => {
         const user = result.user;
-
+        
         const user_info = {
           email,
           password,
@@ -282,14 +264,21 @@ const Login = () => {
                 //   setValue("password", "Welcome12");
                 // }}
                 type="button"
-                className={`btn flex-1 text-white rounded-full bg-gradient-to-r from-[#6360f0] to-[#8b59ff] hover:from-[#ce3a6b] hover:to-[#96165c]`}
+                className={`btn flex-1 text-xs text-white rounded-full bg-gradient-to-r from-[#6360f0] to-[#8b59ff] hover:from-[#ce3a6b] hover:to-[#96165c]`}
               >
                 Demo Login
               </button>
               <button
+                onClick={() => handleDemoLogin("Staff")}
+                type="button"
+                className={`btn flex-1 text-xs text-white rounded-full bg-gradient-to-r from-[#c740e2] to-[#f52ca8] hover:from-[#3c47e7] hover:to-[#1d85b6] `}
+              >
+                Staff Login
+              </button>
+              <button
                 onClick={() => handleDemoLogin("Admin")}
                 type="button"
-                className={`btn flex-1 text-white rounded-full bg-gradient-to-r from-[#eb5151] to-[#ec2d2d] hover:from-[#34a4e6] hover:to-[#1691ca] `}
+                className={`btn flex-1 text-xs text-white rounded-full bg-gradient-to-r from-[#eb5151] to-[#ec2d2d] hover:from-[#34a4e6] hover:to-[#1691ca] `}
               >
                 Admin Login
               </button>
